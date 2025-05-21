@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Paper, Tabs, Tab, Typography } from '@mui/material';
-import FormularioEntrada from './FormularioEntrada';
-import Resultados from './Resultados';
+import FormularioEntrada from './FormularioEntrada.jsx';
+import Resultados from './Resultados.jsx';
 
 function Calculadora() {
   const [tipoCalculo, setTipoCalculo] = useState('proyeccion');

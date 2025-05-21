@@ -4,8 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Calculadora from './components/Calculadora';
-import Footer from './components/Footer';
+import Calculadora from './components/Calculadora.jsx';
+import Footer from './components/Footer.jsx';
 
 const theme = createTheme({
   palette: {
