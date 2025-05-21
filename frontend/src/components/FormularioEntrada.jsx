@@ -15,11 +15,20 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
+// Configuración de axios
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000',
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
+
 function FormularioEntrada({ tipoCalculo, setResultados, setError }) {
   const [numEstados, setNumEstados] = useState(3);
   const [matriz, setMatriz] = useState(Array(3).fill().map(() => Array(3).fill(0)));
   const [vectorInicial, setVectorInicial] = useState(Array(3).fill(0));
   const [pasos, setPasos] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Actualizar tamaño de matriz y vector cuando cambia numEstados
@@ -44,6 +53,7 @@ function FormularioEntrada({ tipoCalculo, setResultados, setError }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
 
     try {
       const endpoint = tipoCalculo === 'proyeccion' ? '/api/proyeccion' : '/api/absorbentes';
@@ -53,10 +63,22 @@ function FormularioEntrada({ tipoCalculo, setResultados, setError }) {
         pasos: tipoCalculo === 'proyeccion' ? pasos : undefined
       };
 
-      const response = await axios.post(`http://localhost:5000${endpoint}`, data);
+      const response = await api.post(endpoint, data);
       setResultados(response.data);
     } catch (error) {
-      setError(error.response?.data?.error || 'Error al procesar la solicitud');
+      console.error('Error completo:', error);
+      if (error.response) {
+        // El servidor respondió con un código de error
+        setError(error.response.data?.error || 'Error en el servidor');
+      } else if (error.request) {
+        // La petición fue hecha pero no se recibió respuesta
+        setError('No se pudo conectar con el servidor. Por favor, intente más tarde.');
+      } else {
+        // Algo sucedió al configurar la petición
+        setError('Error al procesar la solicitud');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -161,8 +183,9 @@ function FormularioEntrada({ tipoCalculo, setResultados, setError }) {
             color="primary"
             size="large"
             fullWidth
+            disabled={isLoading}
           >
-            Calcular
+            {isLoading ? 'Calculando...' : 'Calcular'}
           </Button>
         </Grid>
       </Grid>
