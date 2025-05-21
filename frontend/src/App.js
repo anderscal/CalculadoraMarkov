@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Calculadora from './components/Calculadora';
 import Footer from './components/Footer';
-import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
 
 const theme = createTheme({
   palette: {
@@ -81,10 +80,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="md" sx={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Container maxWidth="md" sx={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', pb: 8 }}>
         <Box sx={{ my: 4 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-            <CalculateOutlinedIcon sx={{ fontSize: 48, color: 'primary.main', mr: 2 }} />
             <Typography variant="h3" component="h1" gutterBottom align="center" color="primary" sx={{ fontWeight: 700 }}>
               Calculadora de Cadenas de Markov
             </Typography>
