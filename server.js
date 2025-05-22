@@ -101,6 +101,10 @@ app.post('/api/absorbentes', (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send('Servidor de la Calculadora de Cadenas de Markov funcionando correctamente.');
+});
+
 app.listen(port, () => {
     console.log(`Servidor corriendo en puerto ${port}`);
 }); 
