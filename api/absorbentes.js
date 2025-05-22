@@ -1,4 +1,4 @@
-import { create, all } from 'mathjs';
+const { create, all } = require('mathjs');
 
 const math = create(all);
 
@@ -9,7 +9,7 @@ function validarMatrizEstocastica(matriz) {
     });
 }
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
     if (req.method === 'OPTIONS') {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
