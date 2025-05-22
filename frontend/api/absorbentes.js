@@ -10,11 +10,29 @@ function validarMatrizEstocastica(matriz) {
 }
 
 export default async function handler(req, res) {
+    if (req.method === 'OPTIONS') {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        return res.status(200).end();
+    }
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método no permitido' });
     }
+    let body = req.body;
+    if (!body || Object.keys(body).length === 0) {
+        try {
+            body = JSON.parse(await new Promise((resolve) => {
+                let data = '';
+                req.on('data', chunk => data += chunk);
+                req.on('end', () => resolve(data));
+            }));
+        } catch (e) {
+            return res.status(400).json({ error: 'No se pudo leer el body' });
+        }
+    }
     try {
-        const { matriz } = req.body;
+        const { matriz } = body;
         if (!validarMatrizEstocastica(matriz)) {
             return res.status(400).json({ error: 'La matriz no es estocástica' });
         }
